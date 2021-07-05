@@ -2,7 +2,7 @@ import nextConnect from 'next-connect';
 import { NextApiRequest, NextApiResponse } from 'next';
 import anylogger from 'anylogger';
 
-const logger = anylogger('cros');
+const logger = anylogger('@mmstudio/an000048');
 
 export default function an48<T>() {
 	return nextConnect<NextApiRequest, NextApiResponse<T>>()
