@@ -8,7 +8,8 @@
 		"clean": "del-cli ./dist/",
 		"lint": "eslint ./src/**/*.ts",
 		"compile": "tsc",
-		"build": "npm run clean && npm run lint && npm run compile"
+		"build": "npm run clean && npm run lint && npm run compile",
+		"release": "np"
 	},
 	"repository": {
 		"type": "https+git",
@@ -39,6 +40,10 @@
 		}
 	],
 	"license": "MIT",
+	"publishConfig": {
+		"access": "public",
+		"registry": "https://registry.npmjs.org"
+	},
 	"dependencies": {
 		"next": "^10.0.4",
 		"next-connect": "^0.9.1"
@@ -46,6 +51,7 @@
 	"devDependencies": {
 		"@typescript-eslint/eslint-plugin": "latest",
 		"@typescript-eslint/parser": "latest",
+		"anylogger": "latest",
 		"ava": "latest",
 		"del-cli": "latest",
 		"eslint": "latest",

@@ -1,21 +1,24 @@
 import nextConnect from 'next-connect';
 import { NextApiRequest, NextApiResponse } from 'next';
+import anylogger from 'anylogger';
+
+const logger = anylogger('cros');
 
 export default function an48<T>() {
-	const handler = nextConnect<NextApiRequest, NextApiResponse<T>>();
-
-	if (process.env.NODE_ENV === 'development') {
-		return handler.use<NextApiRequest, NextApiResponse<T>>((req, res, next) => {
-			const acao = req.headers.origin;	// app开发工具请求时可能不带有该参数,如有必要，请在请求头中自行添加.
-			res.setHeader('Access-Control-Allow-Origin', acao || '*');
-			res.setHeader('Access-Control-Allow-Headers', 'content-type, x-requested-with');
-			res.setHeader('Access-Control-Allow-Methods', 'POST,GET,DELETE,PUT');
-			res.setHeader('Access-Control-Allow-Credentials', 'true');
+	return nextConnect<NextApiRequest, NextApiResponse<T>>()
+		.use<NextApiRequest, NextApiResponse<T>>((req, res, next) => {
+			// h5应用需要设置，小程序不进行options请求，也不存在跨域问题
+			const acao = req.headers.origin;
+			logger.debug('method', req.method, 'headers', req.headers);
+			if (acao) {
+				// h5时有值，微信小程序请求时origin为空值
+				res.setHeader('Access-Control-Allow-Origin', acao);
+				res.setHeader('Access-Control-Allow-Headers', 'content-type, x-requested-with');
+				res.setHeader('Access-Control-Allow-Methods', 'POST,GET,DELETE,PUT');
+				res.setHeader('Access-Control-Allow-Credentials', 'true');
+			}
 			next();
 		}).options((_req, res) => {
 			res.end();
 		});
-	}
-	// else product
-	return handler;
 }
