@@ -1,6 +1,6 @@
 {
 	"name": "@mmstudio/an000048",
-	"version": "1.0.2",
+	"version": "1.0.3",
 	"description": "处理跨域",
 	"scripts": {
 		"test": "tsc && ava ./tests/*.js",
