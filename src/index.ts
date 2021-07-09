@@ -5,7 +5,12 @@ import anylogger from 'anylogger';
 const logger = anylogger('@mmstudio/an000048');
 
 export default function an48<T>() {
-	return nextConnect<NextApiRequest, NextApiResponse<T>>()
+	return nextConnect<NextApiRequest, NextApiResponse<T>>({
+		onError(err, _req, res) {
+			logger.error(err);
+			res.end();
+		}
+	})
 		.use<NextApiRequest, NextApiResponse<T>>((req, res, next) => {
 			// h5应用需要设置，小程序不进行options请求，也不存在跨域问题
 			const acao = req.headers.origin;
